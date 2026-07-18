@@ -126,7 +126,6 @@
             color: inherit;
         }
 
-        /* 🔧 修正指標 2：選單防截斷護盾 ── 精準縮小至 11px 並剔除 padding，強制撐滿 100% 寬度與重設 text-overflow，確保不點選時長字名尾巴絕對不被切掉！ */
         .select-input {
             font-size: 11px; 
             font-weight: bold;
@@ -306,7 +305,6 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        /* 🖨️ 頂級 PDF 實體列印控鈕特調裝甲 */
         .print-btn {
             background-color: #2c3e50;
             color: #fff;
@@ -357,7 +355,7 @@
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" id="formSubject" name="_subject" value="【線上報名暨約定完成】巴比美語學員契約回傳通知">
         
-        <!-- 🔒 徹底根除信箱亂碼：改用標準合規純內碼，家長手寫電子簽名將以完整的 Base64 數據流乾淨回收 -->
+        <!-- 🔒 徹底根除信箱亂碼：家長手寫電子簽名將以完整的 Base64 數據流乾淨回收 -->
         <input type="hidden" id="signature_base64" name="家長電子親筆簽名圖檔碼">
 
         <!-- 2026 巴比死數字核心隱形數據（交給 JavaScript 根據下拉選單即時更新動態發送） -->
@@ -368,11 +366,8 @@
 
         <div class="page">
             <div class="contract-header">
-                <!-- 👑 修正指標 1：改寫第 1 行總標題，增加報名表字樣 -->
                 <h1>私立巴比美語短期補習班 ｜ 短期補習服務報名表暨服務契約書</h1>
-                <!-- 👑 修正指標 2：第 2 行完美移除「報名表暨服務契約書」，化身為純淨動態接收天線 -->
                 <h2><span id="dynamicTitleZh" style="color: var(--uci-blue); font-weight: bold;">Let's Go 1 兒童美語初級班</span></h2>
-                <!-- 👑 修正指標 3：第 3 行英文全數正名為皇家旗艦標章 -->
                 <h2 style="font-size: 13.5px; font-weight: bold; margin-top: 5px; opacity: 0.95;">Bobby English School - Enrollment Form & Service Contract</h2>
                 <p style="font-size: 11px; color: #666; margin: 10px 0 0 0;">(依據教育部短期補習班補習服務契約書範本與桃園市最新設立及管理法規制定-2026年9月最新核定版)</p>
             </div>
@@ -429,7 +424,6 @@
 
             <div class="section-title">二、短期補習服務定型化契約應記載條款 / Cram School Services Model Contract Provisions</div>
             
-            <!-- 📜 繁體中文暨專業美語法定 11 大核心防線（採用全自動連動大腦，消保查核絕對完美通關） -->
             <div class="legal-box" id="legalBoxContainer">
                 
                 <div class="legal-item">
@@ -441,8 +435,9 @@
                 <div class="legal-item">
                     <strong>第一條：修業班別與班級性質 / Article 1: Course and Program Enrollment Type：</strong><br>
                     1. 本契約核定就讀班級為：<span id="legal_course_title_zh" style="color: #0077b6; font-weight: bold;">加載中...</span>。<br>
-                    2. 本課程屬一般系統化正規美語教學進度班，非屬保證班（補習班未提供 any 特定考取、分數擔保、退費退分等特定保證成效承諾）。<br>
-                    <span class="legal-en">1. The approved program under this contract is: <span id="legal_course_title_en" style="font-style: italic; font-weight: bold; color: #555;">Loading dynamic antenna...</span>.<br>2. This course is a regular systematic progression program and is NOT a "guaranteed success" or "warranty" program (No promises of passing specific exams or special 成效成敗 guarantee warranties shall apply).</span>
+                    <!-- 👑 法律修護晶片：將英文 "any" 改寫為正統繁體中文「任何」；並將中文「成效成敗」加載官方嚴謹美語對照 "(effectiveness or outcome)" -->
+                    2. 本課程屬一般系統化正規美語教學進度班，非屬保證班（補習班未提供任何特定考取、分數擔保、退費退分等特定保證成效承諾）。<br>
+                    <span class="legal-en">1. The approved program under this contract is: <span id="legal_course_title_en" style="font-style: italic; font-weight: bold; color: #555;">Loading dynamic antenna...</span>.<br>2. This course is a regular systematic progression program and is NOT a "guaranteed success" or "warranty" program (No promises of passing specific exams or special (effectiveness or outcome) guarantee warranties shall apply).</span>
                 </div>
 
                 <div class="legal-item">
@@ -514,7 +509,7 @@
 
                 <div class="legal-item">
                     <strong>第十一條：法律疑義解釋、保存期限與爭議管轄 / Article 11: Legal Interpretation, Preservation Term, and Jurisdiction：</strong><br>
-                    1. 本契約各條款如有疑義時，應依據《消費者保護法》第十一條第二項規定，採取最有利於消費者（甲方）之方向進行法律解释。<br>
+                    1. 本契約各條款如有疑義時，應依據《消費者保護法》第十一條第二項規定，採取最有利於消費者（甲方）之方向進行法律解釋。<br>
                     2. 本契約一式二份，由甲乙雙方各執一份為憑，自家長簽約日起生效。雙方合意合約保存期限不得少於五年，以備查核。<br>
                     <span class="legal-en">1. In case of doubts regarding contract clauses, interpretations shall lean in favor of the consumer (Party A) based on Article 11, Paragraph 2 of the Consumer Protection Act.<br>2. This contract is executed in duplicate, with each party holding one copy as evidence. Both parties agree that the contract preservation period shall be at least 5 years for compliance review.</span>
                 </div>
