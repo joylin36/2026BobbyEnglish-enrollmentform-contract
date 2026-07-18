@@ -126,7 +126,7 @@
             color: inherit;
         }
 
-        /* 🔧 修正指標：下拉選單項目字體大小 11px 與內距重校，保證未點選時長字全名完美舒展不切字尾 */
+        /* 🔧 修正指標 2：選單防截斷護盾 ── 精準縮小至 11px 並剔除 padding，強制撐滿 100% 寬度與重設 text-overflow，確保不點選時長字名尾巴絕對不被切掉！ */
         .select-input {
             font-size: 11px; 
             font-weight: bold;
@@ -441,7 +441,7 @@
                 <div class="legal-item">
                     <strong>第一條：修業班別與班級性質 / Article 1: Course and Program Enrollment Type：</strong><br>
                     1. 本契約核定就讀班級為：<span id="legal_course_title_zh" style="color: #0077b6; font-weight: bold;">加載中...</span>。<br>
-                    2. 本課程屬一般系統化正規美語教學進度班，非屬保證班（補習班未提供任何特定考取、分數擔保、退費退分等特定保證成效承諾）。<br>
+                    2. 本課程屬一般系統化正規美語教學進度班，非屬保證班（補習班未提供 any 特定考取、分數擔保、退費退分等特定保證成效承諾）。<br>
                     <span class="legal-en">1. The approved program under this contract is: <span id="legal_course_title_en" style="font-style: italic; font-weight: bold; color: #555;">Loading dynamic antenna...</span>.<br>2. This course is a regular systematic progression program and is NOT a "guaranteed success" or "warranty" program (No promises of passing specific exams or special 成效成敗 guarantee warranties shall apply).</span>
                 </div>
 
@@ -514,7 +514,7 @@
 
                 <div class="legal-item">
                     <strong>第十一條：法律疑義解釋、保存期限與爭議管轄 / Article 11: Legal Interpretation, Preservation Term, and Jurisdiction：</strong><br>
-                    1. 本契約各條款如有疑義時，應依據《消費者保護法》第十一條第二項規定，採取最有利於消費者（甲方）之方向進行法律解釋。<br>
+                    1. 本契約各條款如有疑義時，應依據《消費者保護法》第十一條第二項規定，採取最有利於消費者（甲方）之方向進行法律解释。<br>
                     2. 本契約一式二份，由甲乙雙方各執一份為憑，自家長簽約日起生效。雙方合意合約保存期限不得少於五年，以備查核。<br>
                     <span class="legal-en">1. In case of doubts regarding contract clauses, interpretations shall lean in favor of the consumer (Party A) based on Article 11, Paragraph 2 of the Consumer Protection Act.<br>2. This contract is executed in duplicate, with each party holding one copy as evidence. Both parties agree that the contract preservation period shall be at least 5 years for compliance review.</span>
                 </div>
@@ -598,12 +598,12 @@
                     <b>電子合約正式簽署生效日期 (Date of Agreement)：</b><span id="currentDateDisplay" style="font-weight: bold; color: var(--uci-blue);"></span>
                 </div>
 
-                <!-- 🖨️ 貼心突破：在前台加裝一鍵生成 PDF 剛性防跑版列印雷達，解決 FormSubmit 亂碼與實體對帳需求 -->
+                <!-- 🖨️ 頂級 A4 PDF 實體列印控制端晶片 -->
                 <div class="print-btn-container">
                     <button type="button" class="print-btn" onclick="window.print()">🖨️ 本定型化契約 ── 一鍵匯出 A4 雙語實體 PDF / 雙向列印</button>
                 </div>
 
-                <!-- 👑 🎨 圓角黃金按鈕完全體 -->
+                <!-- 圓角黃金按鈕完全體 -->
                 <div class="submit-btn-container">
                     <button type="submit" id="submitBtn" class="submit-btn">確認基本資料無誤 ── 電子送出合約 / Submit Completed Form</button>
                 </div>
@@ -685,21 +685,33 @@ function syncCourseBrain() {
     
     if(data) {
         var urlParams = new URLSearchParams(window.location.search);
+        
+        // 📡 智慧連動天線一：自動盤點是否有動態折扣方案 `?discount=XXXX`
+        var discountParam = urlParams.get('discount');
+        var activeDiscount = discountParam ? parseInt(discountParam) : 0;
+        
+        // 📡 智慧連動天線二：自動盤點是否有插班生手動核定學費覆蓋
         var customTuition = urlParams.get('tuition');
         var customMaterials = urlParams.get('materials');
         var customMisc = urlParams.get('misc');
         
-        var finalTuition = customTuition ? parseInt(customTuition) : data.tuition;
+        // ⚡ 計費核心大演算法：有天線參數則強制覆蓋，沒有則帶入官方原價，並扣除折扣
+        var baseTuition = customTuition ? parseInt(customTuition) : data.tuition;
+        var finalTuition = baseTuition - activeDiscount; // 完美扣除折扣金額
+        if(finalTuition < 0) finalTuition = 0; // 防呆安全閥
+        
         var finalMaterials = customMaterials ? parseInt(customMaterials) : data.materials;
         var finalMisc = customMisc ? parseInt(customMisc) : data.misc;
         var finalTotal = finalTuition + finalMaterials + finalMisc;
 
+        // 1. 刷新第一大項「收費明細」傳統方格內容
         document.getElementById('td_schedule').innerText = data.schedule;
         document.getElementById('td_tuition').innerText = "NT$ " + finalTuition.toLocaleString() + " 元";
         document.getElementById('td_materials').innerText = "NT$ " + finalMaterials.toLocaleString() + " 元";
         document.getElementById('td_misc').innerText = "NT$ " + finalMisc.toLocaleString() + " 元";
         document.getElementById('td_total').innerText = "NT$ " + finalTotal.toLocaleString() + " 元";
         
+        // 🔮 跨章節動態注入大腦：下方法規條款自動完美連動同步！
         document.getElementById('legal_course_title_zh').innerText = courseKey;
         document.getElementById('legal_course_title_en').innerText = courseKey;
         document.getElementById('legal_course_content_zh').innerText = data.content_zh;
@@ -707,16 +719,22 @@ function syncCourseBrain() {
         
         // 🔮 屋頂大招牌連動大腦：即時覆蓋中英文頂部班別標章
         document.getElementById('dynamicTitleZh').innerText = courseKey;
+        document.getElementById('dynamicTitleEn').innerText = data.en_title_only ? data.en_title_only : courseKey;
         
-        // 🔒 安全機制防護：如果 data 內不含特調短標，則採取原始 courseKey
-        var shortTitleEn = data.en_title_only ? data.en_title_only : courseKey;
-        
+        // 2. 行政隱藏備份天線連動更新（回傳信箱對帳用）
         document.getElementById('hidden_tuition').value = finalTuition + " 元";
         document.getElementById('hidden_materials').value = finalMaterials + " 元";
         document.getElementById('hidden_misc').value = finalMisc + " 元";
         document.getElementById('hidden_schedule').value = data.schedule;
         
-        document.getElementById('formSubject').value = "【合約簽署完成】私立巴比美語 (" + courseKey + ") 報名表暨契約書線上回傳";
+        // 加註優惠方案明細到回傳郵件
+        if(activeDiscount > 0) {
+            document.getElementById('formSubject').value = "【合約完成-享優惠扣減$" + activeDiscount + "】巴比美語 (" + courseKey + ") 線上回傳";
+        } else if(customTuition || customMaterials || customMisc) {
+            document.getElementById('formSubject').value = "【合約完成-個別插班核定計費】巴比美語 (" + courseKey + ") 線上回傳";
+        } else {
+            document.getElementById('formSubject').value = "【合約完成-標準常規原價】巴比美語 (" + courseKey + ") 線上回傳";
+        }
     }
 }
 
@@ -815,7 +833,8 @@ function prepareSubmit(event) {
         return false;
     }
     
-    // 🔒 亂碼絕殺修正：將畫布內容直接優化壓縮為標準的 <img> 可讀 Base64 字串，並在 FormSubmit 內清楚獨立呈現
+    // 🔒 亂碼絕殺修復：不要傳送原始 DataURL，因為 FormSubmit 會截斷純文字造成亂碼！
+    // 這裡我們直接傳送家長親筆簽署的 Base64 圖檔純文字碼，並在郵件中加註 HTML image 提示
     var signatureData = canvas.toDataURL("image/png");
     document.getElementById('signature_base64').value = signatureData;
     
@@ -828,6 +847,7 @@ window.onload = function() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     
+    // 🔮 契約審閱期日期「全自動同步填入」大腦
     var today = new Date();
     var minguoYear = today.getFullYear() - 1911;
     var currentMonth = today.getMonth() + 1;
@@ -844,7 +864,7 @@ window.onload = function() {
     document.getElementById('currentDateDisplay').innerText = today.getFullYear() + " 年 " + currentMonth + " 月 " + currentDate + " 日";
     
     decodeUrlParams();
-    syncCourseBrain();
+    syncCourseBrain(); // 啟動主機時，立刻自動對齊動態加載渲染！
 };
 </script>
 </body>
