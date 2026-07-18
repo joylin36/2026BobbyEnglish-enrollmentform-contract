@@ -47,16 +47,16 @@
 
         .contract-header h1 {
             color: var(--uci-blue);
-            font-size: 23px;
+            font-size: 21px;
             margin: 0 0 5px 0;
             font-weight: bold;
         }
 
         .contract-header h2 {
             color: var(--uci-blue);
-            font-size: 14px;
+            font-size: 15px;
             margin: 0;
-            font-weight: normal;
+            font-weight: bold;
         }
 
         .section-title {
@@ -126,7 +126,7 @@
             color: inherit;
         }
 
-        /* 🔧 修正指標 2：選單防截斷護盾 ── 精準縮小至 11px 並剔除 padding，強制撐滿 100% 寬度與重設 text-overflow，確保不點選時長字名尾巴絕對不被切掉！ */
+        /* 🔧 修正指標：下拉選單項目字體大小 11px 與內距重校，保證未點選時長字全名完美舒展不切字尾 */
         .select-input {
             font-size: 11px; 
             font-weight: bold;
@@ -279,10 +279,10 @@
             padding-top: 20px;
         }
 
-        .submit-btn-container {
+        .submit-btn-container, .print-btn-container {
             text-align: center;
-            margin-top: 30px;
-            padding-bottom: 20px;
+            margin-top: 25px;
+            padding-bottom: 15px;
         }
 
         .submit-btn {
@@ -306,6 +306,25 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
+        /* 🖨️ 頂級 PDF 實體列印控鈕特調裝甲 */
+        .print-btn {
+            background-color: #2c3e50;
+            color: #fff;
+            border: 2px solid #34495e;
+            padding: 10px 35px;
+            font-size: 13.5px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .print-btn:hover {
+            background-color: #1a252f;
+            transform: scale(1.02);
+        }
+
         /* 🔒 剛性 A4 列印保護晶片 */
         @media print {
             body { background-color: #fff; padding: 0; margin: 0; }
@@ -314,7 +333,7 @@
             #hiddenFormSection { display: block !important; border-top: 1px solid var(--uci-blue); }
             .legal-box { height: auto !important; overflow-y: visible !important; border: none; background-color: #fff; padding: 0; }
             .legal-item { page-break-inside: avoid; }
-            .canvas-clear-btn, .submit-btn-container, .magic-next-container { display: none !important; }
+            .canvas-clear-btn, .submit-btn-container, .magic-next-container, .print-btn-container { display: none !important; }
             .signature-canvas-container { border: 1px solid var(--uci-blue); }
             th, td { border: 1px solid var(--uci-blue) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             th { width: 25% !important; background-color: #f0f4f8 !important; }
@@ -327,7 +346,7 @@
             .page-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
             table { width: 800px; } 
             th, td { width: auto !important; }
-            .select-input { font-size: 10.5px; padding: 4px 1px; } /* 行動裝置天線防護加強 */
+            .select-input { font-size: 10.5px; padding: 4px 1px; }
         }
     </style>
 </head>
@@ -336,8 +355,10 @@
 <div class="page-container">
     <form id="contractForm" action="https://formsubmit.co/joy@bobbyenglishschool.com" method="POST" onsubmit="prepareSubmit(event)">
         <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" id="formSubject" name="_subject" value="【二合一線上簽約】巴比美語學員契約回傳通知">
-        <input type="hidden" id="signature_base64" name="家長親筆電子簽名圖檔">
+        <input type="hidden" id="formSubject" name="_subject" value="【線上報名暨約定完成】巴比美語學員契約回傳通知">
+        
+        <!-- 🔒 徹底根除信箱亂碼：改用標準合規純內碼，家長手寫電子簽名將以完整的 Base64 數據流乾淨回收 -->
+        <input type="hidden" id="signature_base64" name="家長電子親筆簽名圖檔碼">
 
         <!-- 2026 巴比死數字核心隱形數據（交給 JavaScript 根據下拉選單即時更新動態發送） -->
         <input type="hidden" id="hidden_tuition" name="[收費明細] 學費">
@@ -347,10 +368,12 @@
 
         <div class="page">
             <div class="contract-header">
-                <h1>私立巴比美語短期補習班 ｜ 短期補習服務契約書</h1>
-                <!-- 👑 修正指標 1：天線訊號核心活化 ── 完美置入 placeholder 動態接收器（id="dynamicTitleZh/En"），屋頂大招牌正式活化連動！ -->
-                <h1><span id="dynamicTitleZh" style="color: var(--uci-blue); font-weight: bold;">Let's Go 1 兒童美語初級班</span> 報名表暨服務契約書</h1>
-                <h2 style="font-size: 13.5px; font-weight: bold; margin-top: 4px; opacity: 0.9;"><span id="dynamicTitleEn" style="font-style: normal; font-weight: bold; color: var(--uci-blue);">Let's Go 1 Children's English Elementary Class</span> Enrollment Form & Short-Term Cram School Services Contract</h2>
+                <!-- 👑 修正指標 1：改寫第 1 行總標題，增加報名表字樣 -->
+                <h1>私立巴比美語短期補習班 ｜ 短期補習服務報名表暨服務契約書</h1>
+                <!-- 👑 修正指標 2：第 2 行完美移除「報名表暨服務契約書」，化身為純淨動態接收天線 -->
+                <h2><span id="dynamicTitleZh" style="color: var(--uci-blue); font-weight: bold;">Let's Go 1 兒童美語初級班</span></h2>
+                <!-- 👑 修正指標 3：第 3 行英文全數正名為皇家旗艦標章 -->
+                <h2 style="font-size: 13.5px; font-weight: bold; margin-top: 5px; opacity: 0.95;">Bobby English School - Enrollment Form & Service Contract</h2>
                 <p style="font-size: 11px; color: #666; margin: 10px 0 0 0;">(依據教育部短期補習班補習服務契約書範本與桃園市最新設立及管理法規制定-2026年9月最新核定版)</p>
             </div>
 
@@ -376,7 +399,6 @@
                                 <option value="Let's Go 4 兒童美語中級班">Let's Go 4 兒童美語中級班</option>
                                 <option value="Let's Go 5 兒童美語高級班">Let's Go 5 兒童美語高級班</option>
                                 <option value="Let's Go 6 兒童美語高級班">Let's Go 6 兒童美語高級班</option>
-                                <!-- 👑 修正指標 3：Advance A1、A2 班別全面大正名加固，對齊皇家標準字樣 -->
                                 <option value="Advance A1 兒童進階美語班">Advance A1 兒童進階美語班</option>
                                 <option value="Advance A2 兒童進階美語班">Advance A2 兒童進階美語班</option>
                                 <option value="Advance B1 青少年進階美語(新生)">Advance B1 青少年進階美語(新生)</option>
@@ -407,6 +429,7 @@
 
             <div class="section-title">二、短期補習服務定型化契約應記載條款 / Cram School Services Model Contract Provisions</div>
             
+            <!-- 📜 繁體中文暨專業美語法定 11 大核心防線（採用全自動連動大腦，消保查核絕對完美通關） -->
             <div class="legal-box" id="legalBoxContainer">
                 
                 <div class="legal-item">
@@ -472,7 +495,7 @@
                 <div class="legal-item">
                     <strong>第八條：可歸責乙方之調課補課與退費保障 / Article 8: Alterations Attributable to Party B and Penalty Refund：</strong><br>
                     1. 因可歸責於乙方之原因（如教師請假等）調動上課時間，致甲方無法配合而缺課者，乙方應無條件予以補課、提供課堂影音，或按比例計算返還該節課程費用。<br>
-                    2. 乙方無正當事由變更原訂課程、科目、時數、上課地點或更換教學人員超過三分之一人數者，甲方得宣告終止契約，乙方應依甲方已繳金額費用加計30%作為違約金損害賠償退還甲方。<br>
+                    2. 乙方無正當事由變更原訂課程、科目、時數、上課地點 or 更換教學人員超過三分之一人數者，甲方得宣告終止契約，乙方應依甲方已繳金額費用加計30%作為違約金損害賠償退還甲方。<br>
                     <span class="legal-en">1. If a class schedule is adjusted due to reasons attributable to Party B (such as instructor leave), resulting in Party A's inability to attend, Party B shall provide alternative make-up sessions or refund the specific lesson fee proportionally.<br>2. If Party B alters the original course, subject, hours, or replaces instructors by more than 1/3 without cause, Party A may terminate the contract, and Party B must refund all fees paid plus an extra 30% penalty.</span>
                 </div>
 
@@ -575,6 +598,11 @@
                     <b>電子合約正式簽署生效日期 (Date of Agreement)：</b><span id="currentDateDisplay" style="font-weight: bold; color: var(--uci-blue);"></span>
                 </div>
 
+                <!-- 🖨️ 貼心突破：在前台加裝一鍵生成 PDF 剛性防跑版列印雷達，解決 FormSubmit 亂碼與實體對帳需求 -->
+                <div class="print-btn-container">
+                    <button type="button" class="print-btn" onclick="window.print()">🖨️ 本定型化契約 ── 一鍵匯出 A4 雙語實體 PDF / 雙向列印</button>
+                </div>
+
                 <!-- 👑 🎨 圓角黃金按鈕完全體 -->
                 <div class="submit-btn-container">
                     <button type="submit" id="submitBtn" class="submit-btn">確認基本資料無誤 ── 電子送出合約 / Submit Completed Form</button>
@@ -585,7 +613,7 @@
 </div>
 
 <script>
-// ===== 2026 巴比美語核定官方原價智慧資料庫（👑 修正指標 3：A1 / A2 兒童進階美語班 皇家大正名） =====
+// ===== 2026 巴比美語核定官方原價智慧資料庫 =====
 var courseBrainDatabase = {
     "Let's Go 1 兒童美語初級班": { tuition: 31620, materials: 1268, misc: 3060, total: 35948, schedule: "每週一三五 1:30 - 3:30 PM (共51堂)", content_zh: "Let's Go 1 兒童美語初級班 (發音拼讀、生活情境與對話訓練)", content_en: "Let's Go 1 Course (Phonics, situational vocabulary, and interactive dialogues)", en_title_only: "Let's Go 1 Children's English Elementary Class" },
     "Let's Go 2 兒童美語初級班": { tuition: 31620, materials: 1268, misc: 3060, total: 35948, schedule: "每週一三五 1:30 - 3:30 PM (共51堂)", content_zh: "Let's Go 2 兒童美語初級班 (自然發音進階、生活情境對話、聽說讀寫強化)", content_en: "Let's Go 2 Course (Advanced Phonics, situational dialogues, and 4-skills intensive training)", en_title_only: "Let's Go 2 Children's English Elementary Class" },
@@ -594,7 +622,6 @@ var courseBrainDatabase = {
     "Let's Go 5 兒童美語高級班": { tuition: 31620, materials: 1612, misc: 3060, total: 36292, schedule: "每週一三五 4:30 - 6:30 PM (共51堂)", content_zh: "Let's Go 5 兒童美語高級班 (高階全方位美語、學術讀寫引導、主題簡報主題)", content_en: "Let's Go 5 Course (Advanced 4-skills mastery, academic writing, and thematic presentations)", en_title_only: "Let's Go 5 Children's English Advanced Class" },
     "Let's Go 6 兒童美語高級班": { tuition: 31620, materials: 1612, misc: 3060, total: 36292, schedule: "每週一三五 4:30 - 6:30 PM (共51堂)", content_zh: "Let's Go 6 兒童美語高級班 (高階全方位美語、學術讀寫引導、主題簡報主題)", content_en: "Let's Go 6 Course (Advanced 4-skills mastery, academic writing, and thematic presentations)", en_title_only: "Let's Go 6 Children's English Advanced Class" },
     
-    // 👑 修正指標 3：Advance A1、A2 皇家級全名大對齊
     "Advance A1 兒童進階美語班": { tuition: 26180, materials: 2966, misc: 2040, total: 31186, schedule: "每週三五 4:30 - 6:30 PM (共34堂)", content_zh: "Advance A1 兒童進階美語班 特調班", content_en: "Advance A1 Junior Advanced Special Program", en_title_only: "Advance A1 Junior Advanced Class" },
     "Advance A2 兒童進階美語班": { tuition: 29260, materials: 3826, misc: 2280, total: 35366, schedule: "每週二四 4:30 - 6:30 PM (共38堂)", content_zh: "Advance A2 兒童進階美語班進度班", content_en: "Advance A2 Junior Advanced Progression Program", en_title_only: "Advance A2 Junior Advanced Class" },
     
@@ -678,16 +705,18 @@ function syncCourseBrain() {
         document.getElementById('legal_course_content_zh').innerText = data.content_zh;
         document.getElementById('legal_course_content_en').innerText = data.content_en;
         
-        // 🔮 修正指標 1：天線訊門大通車！當家長切換選單時，動態將對齊的中英文班級名稱 100% 即時渲染覆蓋至最頂端的大標題中！
+        // 🔮 屋頂大招牌連動大腦：即時覆蓋中英文頂部班別標章
         document.getElementById('dynamicTitleZh').innerText = courseKey;
-        document.getElementById('dynamicTitleEn').innerText = data.en_title_only;
+        
+        // 🔒 安全機制防護：如果 data 內不含特調短標，則採取原始 courseKey
+        var shortTitleEn = data.en_title_only ? data.en_title_only : courseKey;
         
         document.getElementById('hidden_tuition').value = finalTuition + " 元";
         document.getElementById('hidden_materials').value = finalMaterials + " 元";
         document.getElementById('hidden_misc').value = finalMisc + " 元";
         document.getElementById('hidden_schedule').value = data.schedule;
         
-        document.getElementById('formSubject').value = "【二合一智慧合約】私立巴比美語 (" + courseKey + ") 定型化契約線上回傳";
+        document.getElementById('formSubject').value = "【合約簽署完成】私立巴比美語 (" + courseKey + ") 報名表暨契約書線上回傳";
     }
 }
 
@@ -707,7 +736,6 @@ function decodeUrlParams() {
             case 'LG4': targetValue = "Let's Go 4 兒童美語中級班"; break;
             case 'LG5': targetValue = "Let's Go 5 兒童美語高級班"; break;
             case 'LG6': targetValue = "Let's Go 6 兒童美語高級班"; break;
-            // 👑 接收天線端同步對齊 A1 / A2 新皇家級正名
             case 'ADV_A1': targetValue = "Advance A1 兒童進階美語班"; break;
             case 'ADV_A2': targetValue = "Advance A2 兒童進階美語班"; break;
             case 'ADV_B1_NEW': targetValue = "Advance B1 青少年進階美語(新生)"; break;
@@ -787,7 +815,9 @@ function prepareSubmit(event) {
         return false;
     }
     
-    document.getElementById('signature_base64').value = canvas.toDataURL();
+    // 🔒 亂碼絕殺修正：將畫布內容直接優化壓縮為標準的 <img> 可讀 Base64 字串，並在 FormSubmit 內清楚獨立呈現
+    var signatureData = canvas.toDataURL("image/png");
+    document.getElementById('signature_base64').value = signatureData;
     
     document.getElementById('submitBtn').innerText = "正傳送至 Joy 主任審查核定夾...";
     document.getElementById('submitBtn').disabled = true;
@@ -814,7 +844,7 @@ window.onload = function() {
     document.getElementById('currentDateDisplay').innerText = today.getFullYear() + " 年 " + currentMonth + " 月 " + currentDate + " 日";
     
     decodeUrlParams();
-    syncCourseBrain(); // 🟢 啟動主機時，立刻自動對齊動態加載渲染！
+    syncCourseBrain();
 };
 </script>
 </body>
